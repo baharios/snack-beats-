@@ -1,0 +1,115 @@
+@import url('https://fonts.googleapis.com/css2?family=VT323&family=Share+Tech+Mono&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --color-glitch-cyan: #00ffff;
+  --color-glitch-magenta: #ff00ff;
+  --color-glitch-yellow: #ffff00;
+  --color-glitch-black: #050505;
+  
+  --font-pixel: "VT323", monospace;
+  --font-mono: "Share Tech Mono", monospace;
+}
+
+@layer base {
+  body {
+    @apply bg-glitch-black text-glitch-cyan font-mono overflow-hidden;
+    background-image: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06));
+    background-size: 100% 2px, 3px 100%;
+  }
+}
+
+@keyframes glitch {
+  0% { transform: translate(0); }
+  20% { transform: translate(-2px, 2px); }
+  40% { transform: translate(-2px, -2px); }
+  60% { transform: translate(2px, 2px); }
+  80% { transform: translate(2px, -2px); }
+  100% { transform: translate(0); }
+}
+
+@keyframes scanline {
+  0% { bottom: 100%; }
+  80% { bottom: 100%; }
+  100% { bottom: 0%; }
+}
+
+@keyframes noise {
+  0% { transform: translate(0,0) }
+  10% { transform: translate(-5%,-5%) }
+  20% { transform: translate(-10%,5%) }
+  30% { transform: translate(5%,-10%) }
+  40% { transform: translate(-5%,15%) }
+  50% { transform: translate(-10%,5%) }
+  60% { transform: translate(15%,0) }
+  70% { transform: translate(0,10%) }
+  80% { transform: translate(-15%,0) }
+  90% { transform: translate(10%,5%) }
+  100% { transform: translate(5%,0) }
+}
+
+.glitch-text {
+  position: relative;
+  display: inline-block;
+}
+
+.glitch-text::before,
+.glitch-text::after {
+  content: attr(data-text);
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.glitch-text::before {
+  left: 2px;
+  text-shadow: -2px 0 var(--color-glitch-magenta);
+  clip: rect(44px, 450px, 56px, 0);
+  animation: glitch 5s infinite linear alternate-reverse;
+}
+
+.glitch-text::after {
+  left: -2px;
+  text-shadow: -2px 0 var(--color-glitch-cyan);
+  clip: rect(44px, 450px, 56px, 0);
+  animation: glitch 5s infinite linear alternate-reverse;
+}
+
+.scanline {
+  width: 100%;
+  height: 100px;
+  z-index: 9999;
+  background: linear-gradient(0deg, rgba(0, 0, 0, 0) 0%, rgba(255, 255, 255, 0.2) 50%, rgba(0, 0, 0, 0) 100%);
+  opacity: 0.1;
+  position: fixed;
+  bottom: 100%;
+  pointer-events: none;
+  animation: scanline 8s linear infinite;
+}
+
+.noise-overlay {
+  position: fixed;
+  top: -50%;
+  left: -50%;
+  right: -50%;
+  bottom: -50%;
+  width: 200%;
+  height: 200%;
+  background: transparent url('https://grainy-gradients.vercel.app/noise.svg') repeat;
+  opacity: .15;
+  z-index: 9998;
+  pointer-events: none;
+  animation: noise .2s infinite;
+}
+
+.crt-border {
+  border: 1px solid var(--color-glitch-cyan);
+  box-shadow: inset 0 0 10px var(--color-glitch-cyan), 0 0 10px var(--color-glitch-cyan);
+}
+
+.magenta-border {
+  border: 1px solid var(--color-glitch-magenta);
+  box-shadow: inset 0 0 10px var(--color-glitch-magenta), 0 0 10px var(--color-glitch-magenta);
+}
